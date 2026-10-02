@@ -32,9 +32,9 @@ CloudWatch Logs → サブスクリプションフィルター → Firehose → 
 - リージョン: `ap-northeast-1`
 - Terraform AWS Provider: `>= 6.44.0`
 - バケット名のアカウントID部分は `data.aws_caller_identity` で自動取得（直書きなし）
-- 全タグ対応リソースに `TISI_kensyo = true` を付与（provider の `default_tags`）
+- 全タグ対応リソースに `verify = true` を付与（provider の `default_tags`）
 
-### Firehose の processing_configuration（本番と同一）
+### Firehose の processing_configuration
 
 1. `Decompression`（GZIP）… CloudWatch Logs のペイロードを解凍
 2. `CloudWatchLogProcessing`（`DataMessageExtraction = true`）… message だけを抽出
@@ -93,7 +93,7 @@ aws logs put-log-events \
 3. 5〜10 分後、S3 の prefix 側にオブジェクトができることを確認（Asia/Tokyo 基準のパス）
 
 ```bash
-aws s3 ls s3://fhverify-logs-<アカウントID>/postgresql/verify-dbcls-01/ --recursive
+aws s3 ls s3://fhverify-logs-<アカウントID>/applogs/sample-stream-01/ --recursive
 ```
 
 4. ダウンロードして展開し、message が 1 行ずつ並ぶこと（外枠が消えていること）を確認
@@ -193,7 +193,7 @@ aws s3api delete-bucket-policy --bucket fhverify-logs-<アカウントID>
 欠損なく保存されるかを照合する。
 
 ```bash
-aws s3 ls s3://fhverify-logs-<アカウントID>/postgresql/verify-dbcls-01/ --recursive
+aws s3 ls s3://fhverify-logs-<アカウントID>/applogs/sample-stream-01/ --recursive
 ```
 
 ## 判定・報告のポイント

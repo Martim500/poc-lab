@@ -14,7 +14,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      TISI_kensyo = "true"
+      verify = "true"
     }
   }
 }

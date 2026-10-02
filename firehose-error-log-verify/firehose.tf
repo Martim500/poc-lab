@@ -6,8 +6,8 @@ resource "aws_kinesis_firehose_delivery_stream" "s3" {
     role_arn   = aws_iam_role.firehose.arn
     bucket_arn = aws_s3_bucket.logs.arn
 
-    prefix              = "postgresql/verify-dbcls-01/!{timestamp:yyyy/MM/dd/HH}/"
-    error_output_prefix = "errors/postgresql/verify-dbcls-01/!{timestamp:yyyy/MM/dd}/!{firehose:error-output-type}/"
+    prefix              = "applogs/sample-stream-01/!{timestamp:yyyy/MM/dd/HH}/"
+    error_output_prefix = "errors/applogs/sample-stream-01/!{timestamp:yyyy/MM/dd}/!{firehose:error-output-type}/"
     buffering_size      = 5
     buffering_interval  = 300
     compression_format  = "GZIP"
