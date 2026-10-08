@@ -1,0 +1,35 @@
+# このファイルを terraform.tfvars にコピーし、各ステップごとに値を変えて apply する。
+# 各ステップの意味・期待結果・解釈は README.md「5. apply 後の検証手順」を参照。
+
+region   = "ap-northeast-1"
+bus_name = "verify-vendedlog-bus"
+
+# ===== Step1: 配信パイプライン無し（log_config だけ設定） =====
+# log_level                        = "TRACE"
+# include_detail                   = "FULL"
+# enable_log_delivery              = false
+# enable_log_group_resource_policy = false
+# enable_resource_policy_condition = false
+# source_arn_pattern               = "delivery_source"
+
+# ===== Step3: delivery あり / ロググループのリソースポリシー無し =====
+# enable_log_delivery              = true
+# enable_log_group_resource_policy = false
+# enable_resource_policy_condition = false
+
+# ===== Step4-a: リソースポリシーあり / Condition 無し =====
+# enable_log_delivery              = true
+# enable_log_group_resource_policy = true
+# enable_resource_policy_condition = false
+
+# ===== Step4-b-1: Condition あり / SourceArn = delivery-source ARN（公式方式） =====
+enable_log_delivery              = true
+enable_log_group_resource_policy = true
+enable_resource_policy_condition = true
+source_arn_pattern               = "delivery_source"
+
+# ===== Step4-b-2: Condition あり / SourceArn = ロググループ ARN（誤りの可能性を検証） =====
+# enable_log_delivery              = true
+# enable_log_group_resource_policy = true
+# enable_resource_policy_condition = true
+# source_arn_pattern               = "log_group"

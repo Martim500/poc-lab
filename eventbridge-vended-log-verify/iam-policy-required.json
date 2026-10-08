@@ -1,0 +1,111 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EventBridgeBusManage",
+      "Effect": "Allow",
+      "Action": [
+        "events:CreateEventBus",
+        "events:DeleteEventBus",
+        "events:DescribeEventBus",
+        "events:UpdateEventBus",
+        "events:PutEvents",
+        "events:ListTagsForResource",
+        "events:TagResource",
+        "events:UntagResource"
+      ],
+      "Resource": [
+        "arn:aws:events:ap-northeast-1:*:event-bus/verify-vendedlog-bus",
+        "arn:aws:events:ap-northeast-1:*:event-bus/default"
+      ]
+    },
+    {
+      "Sid": "EventBridgePutEventsAnyBus",
+      "Effect": "Allow",
+      "Action": [
+        "events:PutEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "EventBridgeVendedLogDelivery",
+      "Effect": "Allow",
+      "Action": [
+        "events:AllowVendedLogDeliveryForResource"
+      ],
+      "Resource": [
+        "arn:aws:events:ap-northeast-1:*:event-bus/verify-vendedlog-bus",
+        "arn:aws:events:ap-northeast-1:*:event-bus/default"
+      ]
+    },
+    {
+      "Sid": "CloudWatchLogGroupManage",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:DeleteLogGroup",
+        "logs:DescribeLogGroups",
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy",
+        "logs:DescribeLogStreams",
+        "logs:GetLogEvents",
+        "logs:FilterLogEvents",
+        "logs:ListTagsForResource",
+        "logs:TagResource",
+        "logs:UntagResource"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudWatchLogsResourcePolicyManage",
+      "Effect": "Allow",
+      "Action": [
+        "logs:PutResourcePolicy",
+        "logs:DeleteResourcePolicy",
+        "logs:DescribeResourcePolicies"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudWatchLogsDeliveryManage",
+      "Effect": "Allow",
+      "Action": [
+        "logs:PutDeliverySource",
+        "logs:GetDeliverySource",
+        "logs:DeleteDeliverySource",
+        "logs:DescribeDeliverySources",
+        "logs:PutDeliveryDestination",
+        "logs:GetDeliveryDestination",
+        "logs:DeleteDeliveryDestination",
+        "logs:DescribeDeliveryDestinations",
+        "logs:PutDeliveryDestinationPolicy",
+        "logs:GetDeliveryDestinationPolicy",
+        "logs:DeleteDeliveryDestinationPolicy",
+        "logs:CreateDelivery",
+        "logs:GetDelivery",
+        "logs:DeleteDelivery",
+        "logs:DescribeDeliveries",
+        "logs:ListTagsForResource",
+        "logs:TagResource",
+        "logs:UntagResource"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "CloudTrailLookupForPermissionDebug",
+      "Effect": "Allow",
+      "Action": [
+        "cloudtrail:LookupEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadIdentityAndRegion",
+      "Effect": "Allow",
+      "Action": [
+        "sts:GetCallerIdentity"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
