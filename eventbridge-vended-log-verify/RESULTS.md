@@ -74,11 +74,12 @@ arn:aws:logs:ap-northeast-1:<ACCOUNT_ID>:delivery-source:verify-vendedlog-bus-sr
 | 2 | 情報源A のアイデンティティベースポリシーのみで出力されるか | 情報源A は「設定操作用」の権限と整理 | 実行時の出力はロググループ側ポリシー＋配信パイプラインに依存。イベントバスへのリソースベースポリシーは本 apply に含まれないが出力は成立した |
 | 3 | リソースベースポリシーは Condition 無しで出力されるか | 要件はロググループ側ポリシー。Condition 有りで出力を確認 | Condition 無し（`enable_resource_policy_condition=false`）は追検証可能 |
 | 4 | `aws:SourceArn` に入る実際の ARN 形式 | **delivery-source の ARN** | `terraform output` と実際のログ出力成立で確定。ロググループ ARN 流用は誤り |
-| 5 | デフォルトイベントバスでも同じ方法か | 未実施 | `update-event-bus` 等での追検証手順を README に記載 |
+| 5 | デフォルトイベントバスでも同じ方法か | **成立（確認済み）** | デフォルトバスに `update-event-bus --log-config` 適用可、`put-delivery-source` にデフォルトバス ARN 指定可、`verify.test` 5 件が `EVENT_INGEST_SUCCESS` で出力。記録は consolelog.md |
+| 追 | ロググループ名が `/aws/vendedlogs/` 配下でなくても出力されるか | **出力される（プレフィックス非依存）** | `/verify-non-vendedlogs-prefix-01` で検証②を実施し、4 件が `EVENT_INGEST_SUCCESS` で出力。`/aws/vendedlogs/` 配下でない任意の名前でも問題なし |
 
-> 本 apply（既定値）で確定したのは主に #4、および「イベントバス自身へのリソースベースポリシー無しでも
-> ロググループ側ポリシー＋配信パイプラインがあれば出力される」こと。
-> #1 #3 #5 はフラグを切り替えた追加 apply で切り分けられる（手順は README「5. apply 後の検証手順」）。
+> 本検証で確定したのは #4、#5、プレフィックス非依存、および「イベントバス自身への
+> リソースベースポリシー無しでも、ロググループ側ポリシー＋配信パイプラインがあれば出力される」こと。
+> #1 #3 はコメントブロックを切り替えた追加 apply で切り分けられる（main.tf / resource_policy.tf のコメント参照）。
 
 ## 5. 設計へのフィードバック
 
@@ -86,7 +87,16 @@ arn:aws:logs:ap-northeast-1:<ACCOUNT_ID>:delivery-source:verify-vendedlog-bus-sr
 - 正しくは「ロググループにリソースベースポリシー、`aws:SourceArn` に delivery-source ARN」。
 - `aws:SourceAccount` には自アカウントIDを入れる（本検証でも設定し、出力は成立）。
 
-## 6. 既知の未確認事項（要実機確認）
+## 6. 追加検証で確定した事項
+
+- **デフォルトバス**: カスタムバスと同一方法でログ出力が成立（§4 #5。記録: consolelog.md）。
+  - `aws events update-event-bus --name default --log-config IncludeDetail=FULL,Level=TRACE` が成功。
+  - `put-delivery-source` の `resource-arn` にデフォルトバス ARN（`event-bus/default`）を指定可能。
+  - 注意: デフォルトバスには実運用のスケジュールイベント等も流れるため、ログに検証対象外のレコードが混在する。
+- **ロググループ名のプレフィックス非依存**: `/aws/vendedlogs/` 配下でない名前でも出力される（検証②）。
+  `/aws/vendedlogs/` 配下でない任意の名前でも、ロググループ側ポリシーが正しければ配信される。
+
+## 7. 残る未確認事項（軽微）
 
 - `put-delivery-source` の `log_type` は `INFO_LOGS` を使用（Terraform 公式例準拠）。他レベル（`ERROR_LOGS` / `TRACE_LOGS`）の個別配信は未検証。
-- デフォルトバス（`default`）への `log_config` 適用可否、`put-delivery-source` でのデフォルトバス ARN 指定可否。
+- #1（配信パイプライン無し）／#3（Condition 無し）は、main.tf / resource_policy.tf のコメントブロック切り替えで追検証可能（実運用設計の判断には影響しない範囲）。

@@ -19,13 +19,13 @@ output "log_group_arn" {
 }
 
 output "delivery_source_arn" {
-  description = "delivery-source の ARN（aws:SourceArn に入る実際の値の候補）"
-  value       = var.enable_log_delivery ? aws_cloudwatch_log_delivery_source.info[0].arn : null
+  description = "delivery-source の ARN（aws:SourceArn に入る実際の値）"
+  value       = aws_cloudwatch_log_delivery_source.info.arn
 }
 
 output "effective_source_arn_in_policy" {
   description = "現在のリソースポリシーで aws:SourceArn に設定している値"
-  value       = var.enable_log_group_resource_policy && var.enable_resource_policy_condition ? local.source_arn_value : "（Condition 無し or ポリシー無し）"
+  value       = local.source_arn_value
 }
 
 # PutEvents 用のサンプルコマンド（コピペ用）

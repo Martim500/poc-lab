@@ -28,7 +28,7 @@ Amazon EventBridge のカスタムイベントバスから CloudWatch Logs へ�
 
 ## 2. 前提条件
 
-- 検証用 AWS アカウントで実施する。既存の本番相当環境は作らない。
+- 検証用 AWS アカウントで実施する。検証対象外の既存環境は作らない。
 - リージョン: `ap-northeast-1`
 - Terraform 実行者（CLI 実行アイデンティティ）に必要な権限:
   - `events:CreateEventBus`, `events:DeleteEventBus`, `events:DescribeEventBus`, `events:PutEvents`
