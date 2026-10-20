@@ -1,0 +1,9 @@
+# Kiro の steering/設定はローカル専用（個人・環境固有情報を含むため公開しない）
+.kiro/
+
+# Terraform（各検証フォルダにも個別の .gitignore あり）
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log
