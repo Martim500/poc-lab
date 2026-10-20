@@ -1,0 +1,59 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EventBridgeConnectionManage",
+      "Effect": "Allow",
+      "Action": [
+        "events:CreateConnection",
+        "events:DescribeConnection",
+        "events:UpdateConnection",
+        "events:DeleteConnection",
+        "events:ListConnections",
+        "events:ListTagsForResource",
+        "events:TagResource",
+        "events:UntagResource"
+      ],
+      "Resource": [
+        "arn:aws:events:ap-northeast-1:*:connection/verify-ignore-connection",
+        "arn:aws:events:ap-northeast-1:*:connection/verify-ignore-connection/*"
+      ]
+    },
+    {
+      "Sid": "SecretsManagerForConnection",
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:CreateSecret",
+        "secretsmanager:UpdateSecret",
+        "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:DeleteSecret",
+        "secretsmanager:TagResource",
+        "secretsmanager:UntagResource"
+      ],
+      "Resource": [
+        "arn:aws:secretsmanager:ap-northeast-1:*:secret:events!connection/verify-ignore-connection/*"
+      ]
+    },
+    {
+      "Sid": "ServiceLinkedRoleForApiDestinations",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateServiceLinkedRole"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/aws-service-role/events.amazonaws.com/AWSServiceRoleForCloudWatchEvents*",
+        "arn:aws:iam::*:role/aws-service-role/apidestinations.events.amazonaws.com/AWSServiceRoleForAmazonEventBridgeApiDestinations*"
+      ]
+    },
+    {
+      "Sid": "ReadIdentityAndRegion",
+      "Effect": "Allow",
+      "Action": [
+        "sts:GetCallerIdentity"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

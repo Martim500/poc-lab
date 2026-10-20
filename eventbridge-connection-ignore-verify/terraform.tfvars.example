@@ -1,0 +1,20 @@
+# このファイルを terraform.tfvars にコピーして使う。
+#
+# 検証の切り分けは connection.tf 内のコメントブロックで行う。
+# このファイルで指定するのは共通の基本設定と、検証で切り替える値のみ。
+
+region          = "ap-northeast-1"
+connection_name = "verify-ignore-connection"
+
+# API Key のヘッダー名
+api_key_header = "x-verify-api-key"
+
+# --- 検証①（初期作成）--------------------------------------------------------
+# TF が投入する API Key の初期値。apply 後にコンソールで別値へ手動変更する。
+api_key_value_tf = "tf-defined-key-AAAA1111"
+
+# description は検証②で TF 側だけ変更する対象。
+# 検証①: v1 で apply → コンソールで API Key 変更 →
+# 検証②: 下を v2 に変えて apply（api_key は触らない）
+description = "verify connection - description v1 (initial)"
+# description = "verify connection - description v2 (changed only description)"

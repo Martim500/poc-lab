@@ -1,0 +1,5 @@
+LOG_GROUP=/aws/vendedlogs/events/event-bus/default
+DELIVERY_SRC=demo-default-src-INFO
+DELIVERY_DST=demo-default-dst-cwl
+DELIVERY_ID=MOjZkOSaOoLwuNoC
+RES_POLICY=AWSLogDeliveryWrite-demo-default

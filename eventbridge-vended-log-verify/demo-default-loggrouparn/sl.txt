@@ -1,0 +1,8 @@
+data.aws_caller_identity.current
+data.aws_iam_policy_document.default
+data.aws_region.current
+aws_cloudwatch_log_delivery.default
+aws_cloudwatch_log_delivery_destination.default
+aws_cloudwatch_log_delivery_source.default
+aws_cloudwatch_log_group.default
+aws_cloudwatch_log_resource_policy.default

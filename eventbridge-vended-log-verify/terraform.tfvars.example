@@ -1,0 +1,12 @@
+# このファイルを terraform.tfvars にコピーして使う。
+#
+# 段階的な検証は「変数」ではなく、各 .tf ファイル内の「検証①/②/…」コメントブロックを
+# 切り替える方式で行う（main.tf / resource_policy.tf のコメント参照）。
+# このファイルで指定するのは共通の基本設定のみ。
+
+region   = "ap-northeast-1"
+bus_name = "verify-vendedlog-bus"
+
+# イベントバスのログ設定
+log_level      = "TRACE" # OFF/ERROR/INFO/TRACE。OFF にすると EventBridge はログを生成しない
+include_detail = "FULL"  # NONE/FULL

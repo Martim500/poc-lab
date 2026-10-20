@@ -1,0 +1,130 @@
+data.aws_caller_identity.current: Reading...
+data.aws_region.current: Reading...
+data.aws_region.current: Read complete after 0s [id=ap-northeast-1]
+data.aws_caller_identity.current: Read complete after 0s [id=123456789012]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.aws_iam_policy_document.default will be read during apply
+  # (config refers to values not yet known)
+ <= data "aws_iam_policy_document" "default" {
+      + id            = (known after apply)
+      + json          = (known after apply)
+      + minified_json = (known after apply)
+
+      + statement {
+          + actions   = [
+              + "logs:CreateLogStream",
+              + "logs:PutLogEvents",
+            ]
+          + effect    = "Allow"
+          + resources = [
+              + (known after apply),
+            ]
+          + sid       = "AllowVendedLogDelivery"
+
+          + condition {
+              + test     = "ArnLike"
+              + values   = [
+                  + (known after apply),
+                ]
+              + variable = "aws:SourceArn"
+            }
+          + condition {
+              + test     = "StringEquals"
+              + values   = [
+                  + "123456789012",
+                ]
+              + variable = "aws:SourceAccount"
+            }
+
+          + principals {
+              + identifiers = [
+                  + "delivery.logs.amazonaws.com",
+                ]
+              + type        = "Service"
+            }
+        }
+    }
+
+  # aws_cloudwatch_log_delivery.default will be created
+  + resource "aws_cloudwatch_log_delivery" "default" {
+      + arn                       = (known after apply)
+      + delivery_destination_arn  = (known after apply)
+      + delivery_source_name      = "demo-default-src-INFO"
+      + field_delimiter           = (known after apply)
+      + id                        = (known after apply)
+      + record_fields             = (known after apply)
+      + region                    = "ap-northeast-1"
+      + s3_delivery_configuration = (known after apply)
+      + tags_all                  = {}
+    }
+
+  # aws_cloudwatch_log_delivery_destination.default will be created
+  + resource "aws_cloudwatch_log_delivery_destination" "default" {
+      + arn                       = (known after apply)
+      + delivery_destination_type = (known after apply)
+      + name                      = "demo-default-dst-cwl"
+      + region                    = "ap-northeast-1"
+      + tags_all                  = {}
+
+      + delivery_destination_configuration {
+          + destination_resource_arn = (known after apply)
+        }
+    }
+
+  # aws_cloudwatch_log_delivery_source.default will be created
+  + resource "aws_cloudwatch_log_delivery_source" "default" {
+      + arn          = (known after apply)
+      + log_type     = "INFO_LOGS"
+      + name         = "demo-default-src-INFO"
+      + region       = "ap-northeast-1"
+      + resource_arn = "arn:aws:events:ap-northeast-1:123456789012:event-bus/default"
+      + service      = (known after apply)
+      + tags_all     = {}
+    }
+
+  # aws_cloudwatch_log_group.default will be created
+  + resource "aws_cloudwatch_log_group" "default" {
+      + arn                         = (known after apply)
+      + deletion_protection_enabled = (known after apply)
+      + id                          = (known after apply)
+      + log_group_class             = (known after apply)
+      + name                        = "/aws/vendedlogs/events/event-bus/default"
+      + name_prefix                 = (known after apply)
+      + region                      = "ap-northeast-1"
+      + retention_in_days           = 1
+      + skip_destroy                = false
+      + tags_all                    = (known after apply)
+    }
+
+  # aws_cloudwatch_log_resource_policy.default will be created
+  + resource "aws_cloudwatch_log_resource_policy" "default" {
+      + id              = (known after apply)
+      + policy_document = (known after apply)
+      + policy_name     = "AWSLogDeliveryWrite-demo-default"
+      + policy_scope    = (known after apply)
+      + region          = "ap-northeast-1"
+      + revision_id     = (known after apply)
+    }
+
+Plan: 5 to add, 0 to change, 0 to destroy.
+aws_cloudwatch_log_group.default: Creating...
+aws_cloudwatch_log_delivery_source.default: Creating...
+aws_cloudwatch_log_delivery_source.default: Creation complete after 1s [name=demo-default-src-INFO]
+aws_cloudwatch_log_group.default: Creation complete after 1s [id=/aws/vendedlogs/events/event-bus/default]
+data.aws_iam_policy_document.default: Reading...
+data.aws_iam_policy_document.default: Read complete after 0s [id=2785956943]
+aws_cloudwatch_log_delivery_destination.default: Creating...
+aws_cloudwatch_log_resource_policy.default: Creating...
+aws_cloudwatch_log_resource_policy.default: Creation complete after 0s [id=AWSLogDeliveryWrite-demo-default]
+aws_cloudwatch_log_delivery_destination.default: Creation complete after 0s [name=demo-default-dst-cwl]
+aws_cloudwatch_log_delivery.default: Creating...
+aws_cloudwatch_log_delivery.default: Creation complete after 0s [id=MOjZkOSaOoLwuNoC]
+
+Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
